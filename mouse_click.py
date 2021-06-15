@@ -25,7 +25,7 @@ while True:
         print(mouse_coor)
         break
     if k== ord('a'):
-        f=open(r'C:\Users\khoa\Desktop\github files\yolov4-deepsort-master\data\video\coordinates.csv','w')     
+        f=open('./data/video/coordinates.csv','w')     
         array=np.asarray(mouse_coor)
         for a in array:
             f.write("%i,%i\n" %(a[0],a[1]))
