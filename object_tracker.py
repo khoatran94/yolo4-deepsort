@@ -263,10 +263,10 @@ def main(_argv):
         for j in range(0,number_of_polygon):
             color = colors[j]
             color = [i * 255 for i in color]
-            text1='lane {}, vehicles {}'.format(j,len(lanes_matched_ids[j]))
+            text1='l{}, veh{}'.format(j,len(lanes_matched_ids[j]))
             org1=tuple([sum(x) for x in zip(tuple(coordinates[4*j]),(0,20))])
             frame=cv2.putText(frame, text1, org1, cv2.FONT_HERSHEY_COMPLEX, 1, color,4)
-            text2='cars: {}, trucks: {}, trains: {}'.format(int(number_of_vehicles[j][class_name_dict["bicycle"]]),
+            text2='{},{},{},{},{},{}'.format(int(number_of_vehicles[j][class_name_dict["bicycle"]]),
                                                             int(number_of_vehicles[j][class_name_dict["car"]]),
                                                             int(number_of_vehicles[j][class_name_dict["motorbike"]]),
                                                             int(number_of_vehicles[j][class_name_dict["bus"]]),
