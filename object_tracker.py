@@ -80,11 +80,14 @@ def main(_argv):
     for i in range(0,number_of_polygon):
       polygons.append(Polygon([points[0+4*i],points[1+4*i],points[2+4*i],points[3+4*i]]))
     #use for checking if vehicles passed in lane areas, ignore those whose already counted
-    lanes_matched_ids=[[] for i in range(0,number_of_polygon*2)]
+    lanes_matched_ids=[[] for i in range(0,number_of_polygon)]
     #prepare for indexing of counters array(number_of_vehicles)
-    class_name_dict={"car": 0,
-                      "truck": 1,
-                      "train": 2}
+    class_name_dict={"bicycle": 0,
+                      "car": 1,
+                      "motorbike":2,
+                      "bus":3,
+                      "train":4,
+                      "truck":5}
     #vehicles counters
     number_of_vehicles=np.zeros(shape=(number_of_polygon,len(class_name_dict)))
     
@@ -188,7 +191,7 @@ def main(_argv):
         allowed_classes = list(class_names.values())
         
         # custom allowed classes (uncomment line below to customize tracker for only people)
-        allowed_classes = ['car','truck','train']
+        allowed_classes = ['bicycle','car','motorbike','bus','train','truck']
 
         # loop through objects and use class index to get class name, allow only classes in allowed_classes list
         names = []
@@ -258,14 +261,20 @@ def main(_argv):
         
         #draw lanes on screen
         for j in range(0,number_of_polygon):
+            color = colors[j]
+            color = [i * 255 for i in color]
             text1='lane {}, vehicles {}'.format(j,len(lanes_matched_ids[j]))
             org1=tuple([sum(x) for x in zip(tuple(coordinates[4*j]),(0,20))])
-            frame=cv2.putText(frame, text1, org1, cv2.FONT_HERSHEY_COMPLEX, 1, (0,0,255),4)
-            text2='cars: {}, trucks: {}, trains: {}'.format(int(number_of_vehicles[j][class_name_dict["car"]]),
-                                                            int(number_of_vehicles[j][class_name_dict["truck"]]),
-                                                            int(number_of_vehicles[j][class_name_dict["train"]]))
+            frame=cv2.putText(frame, text1, org1, cv2.FONT_HERSHEY_COMPLEX, 1, color,4)
+            text2='cars: {}, trucks: {}, trains: {}'.format(int(number_of_vehicles[j][class_name_dict["bicycle"]]),
+                                                            int(number_of_vehicles[j][class_name_dict["car"]]),
+                                                            int(number_of_vehicles[j][class_name_dict["motorbike"]]),
+                                                            int(number_of_vehicles[j][class_name_dict["bus"]]),
+                                                            int(number_of_vehicles[j][class_name_dict["train"]]),
+                                                            int(number_of_vehicles[j][class_name_dict["truck"]])
+                                                            )
             org2=tuple([sum(x) for x in zip(tuple(coordinates[4*j]),(0,80))])
-            frame=cv2.putText(frame, text2, org2, cv2.FONT_HERSHEY_COMPLEX, 1, (255,255,0),4)
+            frame=cv2.putText(frame, text2, org2, cv2.FONT_HERSHEY_COMPLEX, 1, color,4)
             for k in range (0,4):
                 frame=cv2.line(frame,tuple(coordinates[k+4*j]),tuple(coordinates[(k+1)%4+4*j]),(255,0,0),5)
         
