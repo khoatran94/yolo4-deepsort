@@ -265,7 +265,7 @@ def main(_argv):
             color = [i * 255 for i in color]
             text1='l{}, veh{}'.format(j,len(lanes_matched_ids[j]))
             org1=tuple([sum(x) for x in zip(tuple(coordinates[4*j]),(0,20))])
-            frame=cv2.putText(frame, text1, org1, cv2.FONT_HERSHEY_COMPLEX, 1, color,4)
+            frame=cv2.putText(frame, text1, org1, cv2.FONT_HERSHEY_COMPLEX, 1, color,1)
             text2='{},{},{},{},{},{}'.format(int(number_of_vehicles[j][class_name_dict["bicycle"]]),
                                                             int(number_of_vehicles[j][class_name_dict["car"]]),
                                                             int(number_of_vehicles[j][class_name_dict["motorbike"]]),
@@ -274,9 +274,9 @@ def main(_argv):
                                                             int(number_of_vehicles[j][class_name_dict["truck"]])
                                                             )
             org2=tuple([sum(x) for x in zip(tuple(coordinates[4*j]),(0,80))])
-            frame=cv2.putText(frame, text2, org2, cv2.FONT_HERSHEY_COMPLEX, 1, color,4)
+            frame=cv2.putText(frame, text2, org2, cv2.FONT_HERSHEY_COMPLEX, 1, color,1)
             for k in range (0,4):
-                frame=cv2.line(frame,tuple(coordinates[k+4*j]),tuple(coordinates[(k+1)%4+4*j]),(255,0,0),5)
+                frame=cv2.line(frame,tuple(coordinates[k+4*j]),tuple(coordinates[(k+1)%4+4*j]),(255,0,0),2)
         
         print(lanes_matched_ids)    
         print(number_of_vehicles)
