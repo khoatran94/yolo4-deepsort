@@ -35,10 +35,13 @@ speed in km/h
 def calc_speed(x1, y1, start_frame, x2, y2, end_frame, fps):
     time = (end_frame - start_frame) * (1 / fps)
     # print(time)
-    distance = calc_distance_between_two_points_kart(x1, y1, z1, x2, y2, z2)
+    distance = calc_distance_between_two_points_kart(x1, y1, x2, y2)
     # print(distance)
-    speed = distance / time
-    speed = abs(speed) * 3.6
+    if time==0:
+      speed=0
+    else:
+      speed = distance / time
+      speed = abs(speed) * 3.6
     return speed
 
 
