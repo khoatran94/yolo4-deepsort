@@ -87,7 +87,7 @@ class Speedtracker(object):
     def get_speed(self, id):
         obj = self.get_speedtracker(id)
         if (obj != None):
-            speed = calc_speed(obj[1], obj[2], obj[3], obj[4], obj[6], obj[7], obj[8], obj[9], obj[5])
+            speed = calc_speed(obj[1], obj[2], obj[5], obj[3], obj[4], obj[6],obj[7])
             return speed
         else:
             return None
