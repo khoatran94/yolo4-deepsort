@@ -63,7 +63,7 @@ class Speedtracker(object):
     :param number fps: current frame rate of the video
     :return: speed in km h 
     """
-    def update(self, id, x, y, z, frame, fps):
+    def update(self, id, x, y, frame, fps):
         contains = False
         for i in range(len(self.track_obj)):
             if (self.track_obj[i][0] == id):
@@ -72,12 +72,11 @@ class Speedtracker(object):
         if contains:
             for i in range(len(self.track_obj)):
                 if (self.track_obj[i][0] == id):
-                    self.track_obj[i][6] = x
-                    self.track_obj[i][7] = y
-                    self.track_obj[i][8] = z
-                    self.track_obj[i][9] = frame
+                    self.track_obj[i][3] = x
+                    self.track_obj[i][4] = y
+                    self.track_obj[i][6] = frame
         else:
-            self.track_obj.append([id, x, y, frame, fps, 0, frame, 0])
+            self.track_obj.append([id, x, y, 0, 0, frame, frame, fps])
 
     def get_speedtracker(self, id):
         for i in range(len(self.track_obj)):
