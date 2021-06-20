@@ -27,6 +27,8 @@ from tools import generate_detections as gdet
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon,LineString
 import pandas as pd
+#speed tracking import
+from speed import *
 
 flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
 flags.DEFINE_string('weights', './checkpoints/yolov4-416',
@@ -56,6 +58,7 @@ def main(_argv):
     metric = nn_matching.NearestNeighborDistanceMetric("cosine", max_cosine_distance, nn_budget)
     # initialize tracker
     tracker = Tracker(metric)
+    speed_tracker= Speedtracker()
 
     # load configuration for object detector
     config = ConfigProto()
@@ -120,7 +123,8 @@ def main(_argv):
         fps = int(vid.get(cv2.CAP_PROP_FPS))
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
         out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
-
+    
+    fps = vid.get(cv2.CAP_PROP_FPS)
     frame_num = 0
     # while video is running
     while True:
@@ -238,6 +242,13 @@ def main(_argv):
             bbox = track.to_tlbr()
             class_name = track.get_class()
             
+            #get center point for speed tracking
+            center_point=((bbox[0]+bbox[2])/2,(bbox[1]+bbox[3])/2)
+            speed_tracker.update(track.track_id,center_point[0],center_point[1],frame_num,fps)
+            print(speed_tracker.get_speedtracker(track.track_id))
+            velocity=speed_tracker.get_speed(track.track_id)
+            print("tracker ID: {}, speed: {} pixel/s".format(track.track_id,velocity))
+            
         # draw bbox on screen
             color = colors[int(track.track_id) % len(colors)]
             color = [i * 255 for i in color]
@@ -282,8 +293,8 @@ def main(_argv):
         print(number_of_vehicles)
 
         # calculate frames per second of running detections
-        fps = 1.0 / (time.time() - start_time)
-        print("FPS: %.2f" % fps)
+        fps_detection = 1.0 / (time.time() - start_time)
+        print("FPS: %.2f" % fps_detection)
         print(time.time() - start_time)
         result = np.asarray(frame)
         result = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
