@@ -31,7 +31,7 @@ while True:
             f.write("%i,%i\n" %(a[0],a[1]))
         f.close()
         
-            
-            
+        # startramya change the 
+         #end of change   
 
 cv2.destroyAllWindows()
