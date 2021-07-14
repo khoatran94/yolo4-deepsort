@@ -23,7 +23,7 @@ save_model.py:
   --output: path to output video (remember to set right codec for given format. e.g. XVID for .avi)
     (default: None)
   --output_format: codec used in VideoWriter when saving video to file
-    (default: 'XVID)
+    (default: 'XVID')
   --[no]tiny: yolov4 or yolov4-tiny
     (default: 'false')
     (if you specify this flag, remember to use tiny weights in the --weights flag)
