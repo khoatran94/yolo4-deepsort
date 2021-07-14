@@ -3,3 +3,5 @@ easydict
 shapely
 opencv-contrib-python==4.1.2.30
 matplotlib
+absl-py
+pillow
