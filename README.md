@@ -18,14 +18,18 @@ save_model.py:
  object_tracker.py:
   --video: path to input video (use 0 for webcam)
     (default: './data/video/cars.mp4')
+    (u can input url as well , for example: 'https://verkehrsservice.hessen.de/syncdata/video/k5370.mp4')
+    (for inputing a webcam , use 'dev/video0' ,'dev/video1', ...)
   --output: path to output video (remember to set right codec for given format. e.g. XVID for .avi)
     (default: None)
   --output_format: codec used in VideoWriter when saving video to file
     (default: 'XVID)
   --[no]tiny: yolov4 or yolov4-tiny
     (default: 'false')
+    (if you specify this flag, remember to use tiny weights in the --weights flag)
   --weights: path to weights file
     (default: './checkpoints/yolov4-416')
+    (for tiny version : './checkpoints/yolov4-tiny-416')
   --framework: what framework to use (tf, trt, tflite)
     (default: tf)
   --model: yolov3 or yolov4
@@ -38,6 +42,7 @@ save_model.py:
     (default: 0.50)
   --dont_show: dont show video output
     (default: False)
+    (please specific this flag when running on Colab or AWS instance)
   --info: print detailed info about tracked objects
     (default: False)
 ```
