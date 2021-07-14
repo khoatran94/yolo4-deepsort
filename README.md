@@ -4,8 +4,10 @@
 save_model.py:
   --weights: path to weights file
     (default: './data/yolov4.weights')
+    (for tiny version: './data/yolov4-tiny.weights')
   --output: path to output
     (default: './checkpoints/yolov4-416')
+    (for tiny version : './checkpoints/yolov4-tiny-416')
   --[no]tiny: yolov4 or yolov4-tiny
     (default: 'False')
   --input_size: define input size of export model
