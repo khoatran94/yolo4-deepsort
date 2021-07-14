@@ -17,7 +17,7 @@ save_model.py:
     
  object_tracker.py:
   --video: path to input video (use 0 for webcam)
-    (default: './data/video/test.mp4')
+    (default: './data/video/cars.mp4')
   --output: path to output video (remember to set right codec for given format. e.g. XVID for .avi)
     (default: None)
   --output_format: codec used in VideoWriter when saving video to file
