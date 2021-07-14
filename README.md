@@ -18,7 +18,7 @@ save_model.py:
     (default: yolov4)
     
  object_tracker.py:
-  --video: path to input video (use 0 for webcam)
+  --video: path to input video 
     (default: './data/video/cars.mp4')
     (u can input url as well , for example: 'https://verkehrsservice.hessen.de/syncdata/video/k5370.mp4')
     (for inputing a webcam , use 'dev/video0' ,'dev/video1', ...)
