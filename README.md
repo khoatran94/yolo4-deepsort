@@ -44,4 +44,4 @@ save_model.py:
 
 ### References  
   * [tensorflow-yolov4-tflite](https://github.com/hunglc007/tensorflow-yolov4-tflite)
-  * [Deep SORT Repository](https://github.com/nwojke/deep_sort)# yolov4-deepsort
+  * [Deep SORT Repository](https://github.com/nwojke/deep_sort)
