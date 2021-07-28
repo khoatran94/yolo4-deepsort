@@ -16,12 +16,15 @@ save_model.py:
     (default: tf)
   --model: yolov3 or yolov4
     (default: yolov4)
-    
+     
  object_tracker.py:
   --video: path to input video 
     (default: './data/video/cars.mp4')
     (u can input url as well , for example: 'https://verkehrsservice.hessen.de/syncdata/video/k5370.mp4')
     (for inputing a webcam , use 'dev/video0' ,'dev/video1', ...)
+  --lane_config: path to the lanes coordinates file
+    (default: './data/video/coordinates.csv')
+    This file is a result generated from mouse_click.py
   --output: path to output video (remember to set right codec for given format. e.g. XVID for .avi)
     (default: None)
   --output_format: codec used in VideoWriter when saving video to file
@@ -47,7 +50,18 @@ save_model.py:
     (please specific this flag when running on Colab or AWS instance)
   --info: print detailed info about tracked objects
     (default: False)
+  
+ mouse_click.py: open the first frame of a video, double-click to choose points(in a counter or counter-clockwise order), which represents a lane(4 points/lane) 
+  The result(in form of a csv file) will be used in object_tracker.py
+  --video: path to input video 
+    (default: './data/video/cars.mp4')
+    (u can input url as well , for example: 'https://verkehrsservice.hessen.de/syncdata/video/k5370.mp4')
+    (for inputing a webcam , use 'dev/video0' ,'dev/video1', ...)
+  --lane_config: path to the lanes coordinates file
+    (default: './data/video/coordinates.csv')
 ```
+
+
 
 ### References  
   * [tensorflow-yolov4-tflite](https://github.com/hunglc007/tensorflow-yolov4-tflite)
