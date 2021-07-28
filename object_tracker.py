@@ -39,6 +39,7 @@ flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
 flags.DEFINE_string('video', './data/video/test.mp4', 'path to input video or set to 0 for webcam')
 flags.DEFINE_string('output', None, 'path to output video')
 flags.DEFINE_string('output_format', 'XVID', 'codec used in VideoWriter when saving video to file')
+flags.DEFINE_string('lane_config', './data/video/coordinates.csv', 'path to the lanes coordinate points file')
 flags.DEFINE_float('iou', 0.45, 'iou threshold')
 flags.DEFINE_float('score', 0.50, 'score threshold')
 flags.DEFINE_boolean('dont_show', False, 'dont show video output')
@@ -69,7 +70,7 @@ def main(_argv):
     video_path = FLAGS.video
     
     #load configuration for lanes, 1 lane= 1 polygon= 4 points(x,y)
-    lanes_config_path='./data/video/coordinates.csv'
+    lanes_config_path=FLAGS.lane_config
     coordinates=pd.read_csv(lanes_config_path,header=None)
     coordinates=np.asarray(coordinates)
 
@@ -129,6 +130,8 @@ def main(_argv):
     # while video is running
     while True:
         return_value, frame = vid.read()
+        width = int(vid.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
         if return_value:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             image = Image.fromarray(frame)
@@ -221,8 +224,8 @@ def main(_argv):
         detections = [Detection(bbox, score, class_name, feature) for bbox, score, class_name, feature in zip(bboxes, scores, names, features)]
 
         #initialize color map
-        cmap = plt.get_cmap('tab20b')
-        colors = [cmap(i)[:3] for i in np.linspace(0, 1, 20)]
+        cmap = plt.get_cmap('prism')
+        colors = [cmap(i)[:3] for i in np.linspace(0, 1, 25)]
 
         # run non-maxima supression
         boxs = np.array([d.tlwh for d in detections])
@@ -275,19 +278,19 @@ def main(_argv):
             color = colors[j]
             color = [i * 255 for i in color]
             text1='l{}, veh{}'.format(j,len(lanes_matched_ids[j]))
-            org1=tuple([sum(x) for x in zip(tuple(coordinates[4*j]),(0,20))])
-            frame=cv2.putText(frame, text1, org1, cv2.FONT_HERSHEY_COMPLEX, 1, color,1)
-            text2='{},{},{},{},{},{}'.format(int(number_of_vehicles[j][class_name_dict["bicycle"]]),
-                                                            int(number_of_vehicles[j][class_name_dict["car"]]),
-                                                            int(number_of_vehicles[j][class_name_dict["motorbike"]]),
-                                                            int(number_of_vehicles[j][class_name_dict["bus"]]),
-                                                            int(number_of_vehicles[j][class_name_dict["train"]]),
-                                                            int(number_of_vehicles[j][class_name_dict["truck"]])
-                                                            )
-            org2=tuple([sum(x) for x in zip(tuple(coordinates[4*j]),(0,80))])
-            frame=cv2.putText(frame, text2, org2, cv2.FONT_HERSHEY_COMPLEX, 1, color,1)
+            org1=tuple([sum(x) for x in zip(tuple(coordinates[4*j]),(0,-20))])
+            frame=cv2.putText(frame, text1, org1, cv2.FONT_HERSHEY_COMPLEX_SMALL, 2*max(width, height)/1920, color,2)
+            #text2='{},{},{},{},{},{}'.format(int(number_of_vehicles[j][class_name_dict["bicycle"]]),
+                                                            #int(number_of_vehicles[j][class_name_dict["car"]]),
+                                                            #int(number_of_vehicles[j][class_name_dict["motorbike"]]),
+                                                            #int(number_of_vehicles[j][class_name_dict["bus"]]),
+                                                            #int(number_of_vehicles[j][class_name_dict["train"]]),
+                                                            #int(number_of_vehicles[j][class_name_dict["truck"]])
+                                                            #)
+            #org2=tuple([sum(x) for x in zip(tuple(coordinates[4*j]),(0,80))])
+            #frame=cv2.putText(frame, text2, org2, cv2.FONT_HERSHEY_COMPLEX, 1, color,1)
             for k in range (0,4):
-                frame=cv2.line(frame,tuple(coordinates[k+4*j]),tuple(coordinates[(k+1)%4+4*j]),(255,0,0),2)
+                frame=cv2.line(frame,tuple(coordinates[k+4*j]),tuple(coordinates[(k+1)%4+4*j]),color,2)
         
         print(lanes_matched_ids)    
         print(number_of_vehicles)
@@ -295,7 +298,7 @@ def main(_argv):
         # calculate frames per second of running detections
         fps_detection = 1.0 / (time.time() - start_time)
         print("FPS: %.2f" % fps_detection)
-        print(time.time() - start_time)
+        #print(time.time() - start_time)
         result = np.asarray(frame)
         result = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         
